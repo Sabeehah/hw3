@@ -1,8 +1,44 @@
 /*
  * mm_alloc.c
- *
- * Stub implementations of the mm_* routines. Remove this comment and provide
- * a summary of your allocator's design here.
+ 
+ Sabeehah Ismail (797 621)
+ 
+ Summary:
+ 
+ 	A) My mm_malloc function will first check if the base is initialised or not (NULL).
+ 	
+	   If the base is initialised then:
+	   
+	   *It will look for a chunk of memory that is free and also where the size is enough as needed; the find_block function.
+	   *If the right chunk of memory is found:
+	   
+	               i.  The split_block function will try to split the memory chunk.
+	               ii. It will then mark the memory chunk as used, with the free function.
+	               
+	   *If we can't find an appropriate chunk of free memory, then we extend the heap.
+	  
+	  If the base is not initialised (NULL) then:
+	  
+	  *The heap will be extended with the extend_heap function.
+	  *The *l pointer in the find_block function points to the memory chunk that we visited last; this allows us to access it during the extension so that we do not have to traverse through the entire list again.
+
+        B) My mm_realloc function will:
+        
+        *Use my mm_malloc function to find a new memory chunk of a required size, and copy the data from the previous block to this new block.
+        *The previous block will then be free.
+        *The function will return the new pointer.
+        
+        *However, if there is a sufficient amount of memory available then we don't have to re-allocate a new chunk of memory. The same goes for the case where the size doesn't change.
+        *If the next memory block is free and has sufficent space available, it fuses (fusion function) and will try to split if the need occurs.
+        *If the chunk gets smaller, it will try to split with the split_block function.
+	
+	C) My mm_free function will:
+	
+	*Mark the next block free and fuse with it (if it can) when veifying the pointer. If the pointer is invalid, nothing will be done.
+	
+	*If it reaches the end of the heap, it will attempt to release memory by putting a break "brk(bptr)" at the memory chunk's position.
+	
+	
  */
 #include "mm_alloc.h"
 #include <stdlib.h>
