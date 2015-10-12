@@ -38,8 +38,8 @@
 	
 	*If it reaches the end of the heap, it will attempt to release memory by putting a break "brk(bptr)" at the memory chunk's position.
 	
-	
  */
+ 
 #include "mm_alloc.h"
 #include <stdlib.h>
 
